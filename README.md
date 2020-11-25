@@ -20,4 +20,14 @@ It displays:
 
 You can select an accent color in the settings app.
 
-English only, free and open source. 
+English only, free and open source.
+
+## Images
+
+![Watchface Example 1](/media/wf1.png)
+
+![Watchface Example 2](/media/wf2.png)
+
+![Watchface Example 3](/media/wf3.png)
+
+![Watchface Example 4](/media/wf4.png)
