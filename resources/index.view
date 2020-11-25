@@ -1,0 +1,12 @@
+<svg class="background">
+  <image id="outOfSync" href="images/OutOfSync.png" />
+  <text id="day" />
+  <text id="time" />
+  <text id="date" />
+  <text id="steps" />
+  <text id="temperature" />
+  
+  <g id="Batt">
+    <rect id="batteryBox" />
+  </g>
+</svg>
