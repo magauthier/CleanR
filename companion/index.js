@@ -84,13 +84,14 @@ function queryOpenWeather() {
       console.log("latitude: " + lat);
       console.log("langitude: " + long);
       var linkApi = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="  + long + "&units=metric" + "&APPID=" + API_KEY;
+      console.log(linkApi);
 
       fetch(linkApi)
       .then(function (response) {
           response.json()
           .then(function(data) {
             var weather = {
-              key: "weather", temperature: data["main"]["temp"], humidity: data["main"]["humidity"], location: data["name"]
+              key: "weather", temperature: data["main"]["temp"], feels_like: data["main"]["feels_like"], windSpeed: data["wind"]["speed"]
             }
             sendDataToApp(weather);
           });
