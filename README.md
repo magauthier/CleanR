@@ -4,18 +4,19 @@ Watchface for FitBit Versa 3 / Sense
 [FitBit Gallery](https://gallery.fitbit.com/details/c69c5e04-68f8-4029-8138-c3ecd062fc55)
 
 ## Description
-A simple, clean yet powerful watch face.
+Flashy watch face are cool, but not efficient in giving you want you need: "time" ! 
+Here's a clean yet powerful watch face that displays: 
 
-It displays:
-- Temperature (Celcius) [Internet + Location]
 - Current day, time and date
 - Battery level (length of the line)
 - Steps
-- Has not synched for more than an hour
+- Current heart beat
+- Phone icon appears if the device hasn't synched for more than an hour with companion app
+- Current temperature / feels like (Celcius, companion app must be running)
 
-You can select an accent color in the settings app.
+You can choose an accent color in the settings app on your phone. 
 
-English only, free and open source.
+English only, metric, free and open source. 
 
 ## Images
 ![Watchface Example 1](/media/wf1.png)
