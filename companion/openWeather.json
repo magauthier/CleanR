@@ -1,0 +1,43 @@
+{
+  "coord": {
+    "lon": 11.55,
+    "lat": 48.13
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": -0.84,
+    "feels_like": -3.76,
+    "temp_min": -1.67,
+    "temp_max": 0,
+    "pressure": 1021,
+    "humidity": 97
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 1.09,
+    "deg": 199
+  },
+  "clouds": {
+    "all": 52
+  },
+  "dt": 1606443560,
+  "sys": {
+    "type": 3,
+    "id": 2002112,
+    "country": "DE",
+    "sunrise": 1606459105,
+    "sunset": 1606490703
+  },
+  "timezone": 3600,
+  "id": 6940463,
+  "name": "Altstadt",
+  "cod": 200
+}

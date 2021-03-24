@@ -1,10 +1,14 @@
 <svg class="background">
   <image id="outOfSync" href="images/OutOfSync.png" />
-  <text id="day" />
+  <text id="temperature" />
+  <text id="temperatureFeelsLike" />
   <text id="time" />
+  <text id="day" />
   <text id="date" />
   <text id="steps" />
-  <text id="temperature" />
+
+  <image id="imgRHR" href="images/heart.png" />
+  <text id="rHR" />
   
   <g id="Batt">
     <rect id="batteryBox" />

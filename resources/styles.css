@@ -2,32 +2,50 @@
   viewport-fill: black;
 }
 
+
+
 #outOfSync {
   x: 15;
-  y: 160;
+  y: 65;
   width: 20;
   height: 26;
 }
 
 
 #temperature {
-  font-size: 40;
-  font-family: System-Regular;
+  font-size: 30;
+  font-family: System-Bold;
   text-length: 10;
-  text-anchor: middle;
-  x: 50%;
+  text-anchor: end;
+  x: 32%;
   y: 40; 
   fill: white;
 }
-#day {
-  font-size: 40;
+#temperatureFeelsLike {
+  font-size: 20;
   font-family: System-Regular;
-  text-length: 32;
-  text-anchor: middle;
-  x: 50%;
-  y: 80;
+  text-length: 10;
+  text-anchor: start;
+  x: 34%;
+  y: 40; 
+  fill: grey;
+}
+#imgRHR {
+  x: 275;
+  y: 24; 
+  width: 20;
+  height: 20;
+}
+#rHR {
+  font-size: 20;
+  font-family: System-Bold;
+  text-length: 10;
+  text-anchor: end;
+  x: 270;
+  y: 40; 
   fill: white;
 }
+
 
 #time {
   font-size: 100;
@@ -35,17 +53,25 @@
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 165;
+  y: 130;
   fill: #FFAA00;
 }
-
+#day {
+  font-size: 40;
+  font-family: System-Regular;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 175;
+  fill: white;
+}
 #date {
   font-size: 40;
   font-family: System-Bold;
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 210;
+  y: 220;
   fill: white;
 }
 
@@ -53,7 +79,7 @@
   x: 10%;
   width: 80%; 
 
-  y: 235; 
+  y: 245; 
   height: 10;
   fill: #FFAA00; 
 }
@@ -66,6 +92,6 @@
   text-length: 32;
   text-anchor: middle;
   x: 50%;
-  y: 310;
+  y: 320;
   fill: white;
 }

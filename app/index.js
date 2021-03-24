@@ -1,10 +1,16 @@
+// ======
+// IMPORT
 import clock from "clock";
 import document from "document";
 import userActivity from "user-activity";
 
 import { preferences } from "user-settings";
+import * as fs from "fs";
 import { battery } from "power";
 import { me as device } from "device";
+import { HeartRateSensor } from "heart-rate";
+
+import { display } from "display";
 
 import * as messaging from "messaging";
 
@@ -12,13 +18,43 @@ import * as dateHelper from "../common/helper/date";
 import * as formatHelper from "../common/helper/format";
 
 
+// =======
+// GLOBALS
 const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-var LastWeatherFetch = "None";
+
+const hrm;
+
+const SETTINGS_TYPE = "cbor";
+const SETTINGS_FILE = "settings.cbor";
+
+
+// ====
+// MAIN
+
+// Reload previous settings if any (after app forced close)
+onMessageReceived(loadSettings());
+
+display.addEventListener("change", () => {
+  if (display.on) {
+    if (HeartRateSensor) {
+      hrm = new HeartRateSensor();
+      hrm.addEventListener("reading", () => {
+        const rHR = document.getElementById("rHR");
+        rHR.text = hrm.heartRate;
+      });
+      hrm.start();
+    }
+   } else {
+    if (hrm != undefined) {
+      hrm.stop();        
+    }
+   }
+});
 
 
 // =======================================================
-// Update Clock Face
+// Update Clock Face values
 // =======================================================
 
 function setDayTimeDate(evt){
@@ -70,6 +106,13 @@ function setOutOfSync(){
   if (hours > 1)
     OutOfSyncIcon.style.visibility = "visible"
 }
+function setTemperature(data) {
+  const temperature = document.getElementById("temperature");
+  const temperatureFeelsLike = document.getElementById("temperatureFeelsLike");
+
+  temperature.text = Math.round(data.temperature) + "°C";
+  temperatureFeelsLike.text = Math.round(data.feels_like) + "°C"
+}
 
 // Update display
 clock.granularity = "seconds";
@@ -79,13 +122,19 @@ clock.ontick = (evt) => {
   setBattery();
   setSteps();
   setOutOfSync();
-  
-  fetchWeather();  
 }
+
+display.addEventListener("change", () => {
+  if (display.on) {
+    fetchWeather();
+
+    onMessageReceived(loadSettings());
+  } 
+});
 
 
 // =======================================================
-// OnChanged
+// On settings changed
 // =======================================================
 
 function onSettingChanged(evt) {
@@ -102,39 +151,40 @@ function onSettingChanged(evt) {
 
 function fetchWeather() {
   if (messaging.peerSocket.readyState === messaging.peerSocket.OPEN) {
-
-    if (LastWeatherFetch === 'None') { // || (Math.abs(Date.now() - LastWeatherFetch) / 36e5) > 1 ) {
-      console.log("Fetching weather");
-      LastWeatherFetch = Date.now();
-
-      messaging.peerSocket.send({
-        command: 'weather'
-      });
-    }
-
+    console.log("Fetching weather");
+    messaging.peerSocket.send({
+      command: 'weather'
+    });
   }
 }
 
 // Message is received
 messaging.peerSocket.onmessage = evt => {
+  onMessageReceived(evt)
+};
+function onMessageReceived(evt) {
+  if (evt == null)
+    return;
+  
   console.log(`App received: ${JSON.stringify(evt)}`);
 
   if (evt.data.key === "accentColor" && evt.data.newValue) {
     let color = JSON.parse(evt.data.newValue);
     console.log(`Setting color: ${color}`);
 
+    const temperatureText = document.getElementById("temperature");
     const timeText = document.getElementById("time");
     const batteryBox = document.getElementById("batteryBox");
+    temperatureText.style.fill = color;
     timeText.style.fill = color;
     batteryBox.style.fill = color;
+    
+    saveSettings(evt);
   } 
 
   else if (evt.data.key === "weather") {
-    console.log(evt.data.temperature)
-
-    const temperature = document.getElementById("temperature");
-    temperature.text = Math.round(evt.data.temperature) + "°C";
-  }
+    setTemperature(evt.data);
+  }  
 };
 
 // Message socket opens
@@ -151,4 +201,28 @@ messaging.peerSocket.onclose = () => {
 // Listen for the onerror event
 messaging.peerSocket.onerror = function(err) {
   console.log("Connection error: " + err.code + " - " + err.message);
+}
+
+
+// =======================================================
+// Settings from FileSystem
+// =======================================================
+
+function loadSettings() {
+  try {
+    let settings = fs.readFileSync(SETTINGS_FILE, SETTINGS_TYPE);
+
+    console.log(`loadSettings: ${JSON.stringify(settings)}`);
+    return settings;
+    
+  } catch (ex) {
+    console.log("X> Error loading settings: " + ex);
+  }
+
+  return null;
+}
+
+function saveSettings(settings) {
+  console.log(`saveSettings: ${JSON.stringify(settings)}`);
+  fs.writeFileSync(SETTINGS_FILE, settings, SETTINGS_TYPE);
 }
